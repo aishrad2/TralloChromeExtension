@@ -1,10 +1,44 @@
 {
     "manifest_version": 3,
-    "name": "Trallo Chrome Extension",
+    "name": "Trallo",
     "version": "1.0.0",
-    "description": "A simple React app as a Chrome extension",
-    "action": {
-        "default_popup": "index.html"
+    "description": "Plan trips in a side panel. Every trip is one Google Sheet in your own Drive.",
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwlzJMcBFRji3fhU0dAS12Ac+M7zYxcweeoKNpea3WUKWgQkF5KqYaX006KDTQHoFsH8gehbnd1U/VxDymsZYKwDoLeFrZZTm9BRdSeXf0owHZeHl50ma2v0ET0MBf4VpY9aaV7FuVTIKXn20+nW70si5ePK8b27yrbWwtx+YI6Z4PIPSNld1RPy5mtQTixjtnbwDw2i+S0GlFIKqceOLInH9QlWCjB7jVEf+VmX3gwYi10BawGv85dZc4cfDf9VsqYPxVsVf+A5+CE/fwG8SeO5qL3mEaYiLB7eekP06XkcJHmSCrWT02NLfs9+4D3iJbu1rBJLQzyUs2uuBFOyekwIDAQAB",
+    "icons": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
     },
-    "permissions": []
+    "action": {
+        "default_title": "Open Trallo",
+        "default_icon": {
+            "16": "icons/icon16.png",
+            "48": "icons/icon48.png",
+            "128": "icons/icon128.png"
+        }
+    },
+    "side_panel": {
+        "default_path": "index.html"
+    },
+    "background": {
+        "service_worker": "service-worker.js",
+        "type": "module"
+    },
+    "permissions": [
+        "identity",
+        "identity.email",
+        "storage",
+        "sidePanel",
+        "tabs"
+    ],
+    "host_permissions": [
+        "https://sheets.googleapis.com/*",
+        "https://www.googleapis.com/*"
+    ],
+    "oauth2": {
+        "client_id": "316985151536-66u2ukta58l9kgbblps5mkun11td7n7o.apps.googleusercontent.com",
+        "scopes": [
+            "https://www.googleapis.com/auth/drive.file"
+        ]
+    }
 }
