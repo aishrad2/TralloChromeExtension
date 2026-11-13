@@ -3,6 +3,9 @@ export type AppErrorCode =
   | 'AUTH_CANCELLED'
   | 'AUTH_EXPIRED'
   | 'AUTH_CONFIG'
+  | 'GOOGLE_API_CONFIG'
+  | 'GOOGLE_API_PERMISSION'
+  | 'GOOGLE_API_ACCESS'
   | 'SHEET_STRUCTURE_BROKEN'
   | 'NOT_FOUND'
   | 'RATE_LIMITED'
@@ -25,6 +28,12 @@ const FRIENDLY: Record<AppErrorCode, string> = {
   AUTH_EXPIRED: 'Your Google session expired. Sign in again to keep syncing.',
   AUTH_CONFIG:
     'Google rejected this extension’s OAuth client. Check the client ID in manifest.json and the extension ID registered in Google Cloud.',
+  GOOGLE_API_CONFIG:
+    'Google Drive or Sheets API is disabled for this OAuth project. Enable both APIs in Google Cloud Console, then try again.',
+  GOOGLE_API_PERMISSION:
+    'Google denied the requested Drive or Sheets permission. Sign out and back in to grant access; if it persists, check the OAuth scopes and API access in Google Cloud.',
+  GOOGLE_API_ACCESS:
+    'Google denied access to Drive or Sheets. Check this account’s access and the API configuration in Google Cloud.',
   SHEET_STRUCTURE_BROKEN:
     'This trip’s sheet is missing columns Trallo needs. Restore the header row in Google Sheets, then refresh.',
   NOT_FOUND: 'That trip’s sheet is no longer in your Drive.',

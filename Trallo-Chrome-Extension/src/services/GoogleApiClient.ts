@@ -25,10 +25,43 @@ function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
+function googleErrorReason(detail: string): string {
+  try {
+    const body: unknown = JSON.parse(detail)
+    if (typeof body !== 'object' || body === null || !('error' in body)) return ''
+    const error = body.error
+    if (typeof error !== 'object' || error === null || !('errors' in error)) return ''
+    const errors = error.errors
+    if (!Array.isArray(errors)) return ''
+    return errors
+      .map((item: unknown) =>
+        typeof item === 'object' && item !== null && 'reason' in item && typeof item.reason === 'string'
+          ? item.reason
+          : '',
+      )
+      .filter(Boolean)
+      .join(' ')
+  } catch {
+    return ''
+  }
+}
+
 function errorFromStatus(status: number, detail: string): AppError {
   if (status === 401) return appError('AUTH_EXPIRED', detail)
   if (status === 403 && /rate|quota/i.test(detail)) return appError('RATE_LIMITED', detail)
-  if (status === 403) return appError('AUTH_REQUIRED', detail)
+  if (status === 403) {
+    const reason = googleErrorReason(detail)
+    if (
+      /accessNotConfigured|serviceDisabled/i.test(reason) ||
+      /api has not been used in project|api is disabled/i.test(detail)
+    ) {
+      return appError('GOOGLE_API_CONFIG', detail)
+    }
+    if (/insufficientPermissions|insufficient authentication scopes/i.test(`${reason} ${detail}`)) {
+      return appError('GOOGLE_API_PERMISSION', detail)
+    }
+    return appError('GOOGLE_API_ACCESS', detail)
+  }
   if (status === 404) return appError('NOT_FOUND', detail)
   if (status === 429 || status >= 500) return appError('RATE_LIMITED', detail)
   return appError('UNKNOWN', `HTTP ${status}: ${detail}`)

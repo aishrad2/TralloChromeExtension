@@ -107,7 +107,7 @@ export type TripItem =
   | NoteItem
 
 /** A TripItem before it has a rowId. */
-export type NewItem<T extends TripItem = TripItem> = Omit<T, 'rowId'>
+export type NewItem<T extends TripItem = TripItem> = T extends TripItem ? Omit<T, 'rowId'> : never
 
 export type ItemForTab<T extends TabName> = Extract<TripItem, { tab: T }>
 
