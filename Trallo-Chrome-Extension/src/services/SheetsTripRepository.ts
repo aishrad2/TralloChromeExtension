@@ -345,8 +345,8 @@ export class SheetsTripRepository implements TripRepository {
     TAB_NAMES.forEach((tab, i) => {
       const spec = TAB_SPECS[tab]
       const parsed = this.parseTab(spec, response.valueRanges?.[i]?.values ?? [], trip.sheetFileId)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- parseTab is keyed by the same tab
-      ;(out as any)[tab] = parsed.items
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- parseTab is keyed by the same tab
+        ; (out as any)[tab] = parsed.items
       backfills.push(...parsed.backfills.map((b) => ({ ...b, tab })))
     })
 
@@ -432,7 +432,7 @@ export class SheetsTripRepository implements TripRepository {
     const row = toRow(spec, saved as unknown as Record<string, unknown>, index, headers.length)
 
     await this.api.request(
-      `${SHEETS_API}/${trip.sheetFileId}/values/${encodeURIComponent(tabRange(tab, 'A1'))}:append`,
+      `${SHEETS_API}/${trip.sheetFileId}/values/${encodeURIComponent(tabRange(tab, 'A2'))}:append`,
       {
         method: 'POST',
         query: {
