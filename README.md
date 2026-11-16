@@ -4,6 +4,10 @@ Trallo is a Manifest V3 Chrome extension for organizing trip plans in a side
 panel. Each trip is stored as a Google spreadsheet in the user's Drive, which
 can also be opened and edited directly in Google Sheets.
 
+# Authors
+
+Aishwarya and Alexis
+
 ## Implemented
 
 - Google sign-in through `chrome.identity`.
