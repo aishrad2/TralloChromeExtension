@@ -104,7 +104,6 @@ export function HotelsScreen() {
 
   return (
     <ModuleShell
-      tab="Hotels & Housing"
       title="Hotels & Housing"
       below={
         <SavedList label="Saved stays" count={rows.length} empty="No stays saved yet.">

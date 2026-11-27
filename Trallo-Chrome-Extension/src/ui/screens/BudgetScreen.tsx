@@ -18,7 +18,6 @@ export function BudgetScreen() {
 
   return (
     <ModuleShell
-      tab="Budgeting & Expenses"
       title="Budget & Expenses"
       below={
         <SavedList

@@ -90,7 +90,6 @@ export function PackingScreen() {
 
   return (
     <ModuleShell
-      tab="Packing List"
       title="Packing List"
       right={
         <Badge tone={percent === 100 ? 'green' : 'soft'}>

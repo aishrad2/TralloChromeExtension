@@ -115,7 +115,6 @@ export function BucketListScreen() {
 
   return (
     <ModuleShell
-      tab="Bucket List"
       title="Bucket List"
       below={
         <>

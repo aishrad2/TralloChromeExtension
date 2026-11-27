@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { formatRelative } from '../../core/dates'
-import type { TabName } from '../../core/types/tabs'
 import { useTrip } from '../../state/useTrip'
 import { IconButton, LinkButton, OutlineButton } from './Buttons'
 import { ArrowLeftIcon, ExternalLinkIcon, MoreIcon, RefreshIcon, SheetIcon } from './icons'
@@ -98,9 +97,10 @@ export function TripsFooter() {
 }
 
 /** Trip footer: live sheet name, sync state, manual refresh, open in Sheets. */
-export function SyncFooter({ tab }: { tab?: TabName }) {
+export function SyncFooter() {
   const { state, actions, activeTrip } = useTrip()
   const syncing = state.syncState.status === 'syncing'
+  const tab = state.screen.kind === 'module' ? state.screen.tab : undefined
 
   return (
     <footer className="syncfooter">
