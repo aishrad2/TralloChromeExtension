@@ -36,7 +36,6 @@ export function ModuleShell({
         ) : null}
         <StructureBanner
           problems={state.structureProblems}
-          onOpenSheet={() => void actions.openSheet()}
           onRetry={() => void actions.refresh()}
         />
         {children}

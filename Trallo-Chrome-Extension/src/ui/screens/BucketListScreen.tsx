@@ -14,7 +14,6 @@ import {
   MapIcon,
   MapPinIcon,
   SaveIcon,
-  SheetIcon,
   TagIcon,
   UndoIcon,
 } from '../components/icons'
@@ -144,12 +143,6 @@ export function BucketListScreen() {
                 title="Open Maps"
                 sub={mapQuery ? 'Search this place' : 'Add an address first'}
                 onClick={() => mapQuery && void openUrl(mapsUrl(mapQuery))}
-              />
-              <QuickView
-                icon={<SheetIcon size={16} />}
-                title="Open Sheets"
-                sub="Live sync"
-                onClick={() => void actions.openSheet('Bucket List')}
               />
             </div>
           </div>

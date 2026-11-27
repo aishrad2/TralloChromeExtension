@@ -100,6 +100,7 @@ export function TripsFooter() {
 export function SyncFooter() {
   const { state, actions, activeTrip } = useTrip()
   const syncing = state.syncState.status === 'syncing'
+  const tab = state.screen.kind === 'module' ? state.screen.tab : undefined
 
   return (
     <footer className="syncfooter">
@@ -114,7 +115,11 @@ export function SyncFooter() {
         <LinkButton onClick={() => void actions.refresh()} disabled={syncing}>
           {syncing ? 'Syncing…' : `Synced ${formatRelative(state.syncState.lastSyncedAt)}`}
         </LinkButton>
-        <OutlineButton small icon={<ExternalLinkIcon size={13} />} onClick={() => void actions.openSheet()}>
+        <OutlineButton
+          small
+          icon={<ExternalLinkIcon size={13} />}
+          onClick={() => void actions.openSheet(tab)}
+        >
           Open Sheet
         </OutlineButton>
       </span>

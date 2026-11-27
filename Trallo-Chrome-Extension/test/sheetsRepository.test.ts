@@ -160,7 +160,7 @@ describe('reading a tab', () => {
 })
 
 describe('appending a row', () => {
-  it('builds a full-width row and leaves the user’s own column empty', async () => {
+  it('inserts a full-width unformatted row below the header', async () => {
     const saved = await repo.appendRow(TRIP.id, 'Flights', {
       tab: 'Flights',
       airlineFlight: 'UA 837',
@@ -168,7 +168,30 @@ describe('appending a row', () => {
       layovers: [],
     })
 
-    const body = api.lastBody(':append') as { values: unknown[][] }
+    const insertBody = api.lastBody(':batchUpdate') as {
+      requests: {
+        insertDimension?: { range: { startIndex: number; endIndex: number } }
+        repeatCell?: {
+          range: { startRowIndex: number; endRowIndex: number }
+          cell: { userEnteredFormat: Record<string, never> }
+          fields: string
+        }
+      }[]
+    }
+    expect(insertBody.requests).toEqual([
+      { insertDimension: { range: { sheetId: 1, dimension: 'ROWS', startIndex: 1, endIndex: 2 } } },
+      {
+        repeatCell: {
+          range: { sheetId: 1, startRowIndex: 1, endRowIndex: 2 },
+          cell: { userEnteredFormat: {} },
+          fields: 'userEnteredFormat',
+        },
+      },
+    ])
+
+    const writeCall = api.calls.find((call) => call.url.includes('/values/') && call.options.method === 'PUT')
+    expect(writeCall?.url).toContain(encodeURIComponent("'Flights'!A2"))
+    const body = writeCall?.options.body as { values: unknown[][] }
     const row = body.values[0]
     expect(row[0]).toBe(saved.rowId)
     expect(row[2]).toBe('UA 837')

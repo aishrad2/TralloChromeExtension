@@ -59,7 +59,6 @@ export function TripHubScreen({ trip, summary }: { trip: Trip; summary: TripSumm
 
         <StructureBanner
           problems={state.structureProblems}
-          onOpenSheet={() => void actions.openSheet()}
           onRetry={() => void actions.refresh()}
         />
 

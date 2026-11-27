@@ -431,15 +431,31 @@ export class SheetsTripRepository implements TripRepository {
     const saved = { ...item, rowId } as TripItem
     const row = toRow(spec, saved as unknown as Record<string, unknown>, index, headers.length)
 
+    const sheetId = await this.getSheetId(trip.sheetFileId, tab)
+    await this.api.request(`${SHEETS_API}/${trip.sheetFileId}:batchUpdate`, {
+      method: 'POST',
+      body: {
+        requests: [
+          {
+            insertDimension: {
+              range: { sheetId, dimension: 'ROWS', startIndex: 1, endIndex: 2 },
+            },
+          },
+          {
+            repeatCell: {
+              range: { sheetId, startRowIndex: 1, endRowIndex: 2 },
+              cell: { userEnteredFormat: {} },
+              fields: 'userEnteredFormat',
+            },
+          },
+        ],
+      },
+    })
     await this.api.request(
-      `${SHEETS_API}/${trip.sheetFileId}/values/${encodeURIComponent(tabRange(tab, 'A2'))}:append`,
+      `${SHEETS_API}/${trip.sheetFileId}/values/${encodeURIComponent(tabRange(tab, 'A2'))}`,
       {
-        method: 'POST',
-        query: {
-          valueInputOption: 'RAW',
-          insertDataOption: 'INSERT_ROWS',
-          responseValueRenderOption: 'UNFORMATTED_VALUE',
-        },
+        method: 'PUT',
+        query: { valueInputOption: 'RAW' },
         body: { values: [row] },
       },
     )
