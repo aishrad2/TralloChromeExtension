@@ -1,10 +1,8 @@
 import { formatDay } from '../../core/dates'
 import { money } from '../../core/format'
 import { useTrip } from '../../state/useTrip'
-import { PrimaryButton } from '../components/Buttons'
 import { EmptyState } from '../components/Cards'
 import { SavedList, SavedRow } from '../components/SavedList'
-import { ExternalLinkIcon } from '../components/icons'
 import { ModuleShell } from './ModuleShell'
 
 /**
@@ -13,13 +11,14 @@ import { ModuleShell } from './ModuleShell'
  * duplicating the editing surface.
  */
 export function BudgetScreen() {
-  const { actions, items, activeTrip, summary } = useTrip()
+  const { items, activeTrip, summary } = useTrip()
   const currency = activeTrip?.currency
   const expenses = items['Budgeting & Expenses']
   const remaining = summary?.budgetRemaining ?? 0
 
   return (
     <ModuleShell
+      tab="Budgeting & Expenses"
       title="Budget & Expenses"
       below={
         <SavedList
@@ -71,13 +70,6 @@ export function BudgetScreen() {
         Trallo picks the change up on the next sync.
       </p>
 
-      <PrimaryButton
-        block
-        icon={<ExternalLinkIcon size={15} />}
-        onClick={() => void actions.openSheet('Budgeting & Expenses')}
-      >
-        Open in Sheets
-      </PrimaryButton>
     </ModuleShell>
   )
 }

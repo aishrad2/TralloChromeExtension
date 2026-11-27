@@ -57,21 +57,16 @@ export function ErrorBanner({
 /** Shown when a hand edit in Sheets removed a column Trallo reads. */
 export function StructureBanner({
   problems,
-  onOpenSheet,
   onRetry,
 }: {
   problems: HeaderValidationResult[]
-  onOpenSheet: () => void
   onRetry: () => void
 }) {
   if (problems.length === 0) return null
   return (
     <Banner
       actions={
-        <>
-          <LinkButton onClick={onOpenSheet}>Open the sheet</LinkButton>
-          <LinkButton onClick={onRetry}>Re-check</LinkButton>
-        </>
+        <LinkButton onClick={onRetry}>Re-check</LinkButton>
       }
     >
       This trip’s sheet is missing columns Trallo needs:{' '}

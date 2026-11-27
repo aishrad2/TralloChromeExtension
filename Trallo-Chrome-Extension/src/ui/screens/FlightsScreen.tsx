@@ -108,6 +108,7 @@ export function FlightsScreen() {
 
   return (
     <ModuleShell
+      tab="Flights"
       title="Flights"
       below={
         <SavedList label="Saved flights" count={items.Flights.length} empty="No flights saved yet.">

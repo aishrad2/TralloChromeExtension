@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import type { TabName } from '../../core/types/tabs'
 import { useTrip } from '../../state/useTrip'
 import { LinkButton } from '../components/Buttons'
 import { ErrorBanner, StructureBanner } from '../components/Feedback'
@@ -6,11 +7,13 @@ import { BackLink, Panel, ScreenHead, Section, SyncFooter, TopBar } from '../com
 
 /** Chrome shared by all six module screens: back link, title, banners, footer. */
 export function ModuleShell({
+  tab,
   title,
   right,
   children,
   below,
 }: {
+  tab: TabName
   title: string
   right?: ReactNode
   children: ReactNode
@@ -21,7 +24,7 @@ export function ModuleShell({
   return (
     <Panel
       top={<TopBar left={<BackLink label="Back to Hub" onClick={actions.goHub} />} />}
-      footer={<SyncFooter />}
+      footer={<SyncFooter tab={tab} />}
     >
       <ScreenHead title={title} right={right} />
 
@@ -36,7 +39,6 @@ export function ModuleShell({
         ) : null}
         <StructureBanner
           problems={state.structureProblems}
-          onOpenSheet={() => void actions.openSheet()}
           onRetry={() => void actions.refresh()}
         />
         {children}

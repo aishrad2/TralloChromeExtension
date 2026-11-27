@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { formatRelative } from '../../core/dates'
+import type { TabName } from '../../core/types/tabs'
 import { useTrip } from '../../state/useTrip'
 import { IconButton, LinkButton, OutlineButton } from './Buttons'
 import { ArrowLeftIcon, ExternalLinkIcon, MoreIcon, RefreshIcon, SheetIcon } from './icons'
@@ -97,7 +98,7 @@ export function TripsFooter() {
 }
 
 /** Trip footer: live sheet name, sync state, manual refresh, open in Sheets. */
-export function SyncFooter() {
+export function SyncFooter({ tab }: { tab?: TabName }) {
   const { state, actions, activeTrip } = useTrip()
   const syncing = state.syncState.status === 'syncing'
 
@@ -114,7 +115,11 @@ export function SyncFooter() {
         <LinkButton onClick={() => void actions.refresh()} disabled={syncing}>
           {syncing ? 'Syncing…' : `Synced ${formatRelative(state.syncState.lastSyncedAt)}`}
         </LinkButton>
-        <OutlineButton small icon={<ExternalLinkIcon size={13} />} onClick={() => void actions.openSheet()}>
+        <OutlineButton
+          small
+          icon={<ExternalLinkIcon size={13} />}
+          onClick={() => void actions.openSheet(tab)}
+        >
           Open Sheet
         </OutlineButton>
       </span>

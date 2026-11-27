@@ -69,6 +69,7 @@ export function NotesScreen() {
 
   return (
     <ModuleShell
+      tab="Notes & Brainstorming"
       title="Notes & Brainstorm"
       below={
         <SavedList label="Saved notes" count={rows.length} empty="No notes yet.">
